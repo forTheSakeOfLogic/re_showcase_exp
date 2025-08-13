@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - presentation_displays (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - presentation_displays (from `.symlinks/plugins/presentation_displays/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  presentation_displays:
+    :path: ".symlinks/plugins/presentation_displays/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  presentation_displays: 1fa610b7c79d3fa4a6d9c7b43bd08b9e4220deff
+
+PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
+
+COCOAPODS: 1.16.2
