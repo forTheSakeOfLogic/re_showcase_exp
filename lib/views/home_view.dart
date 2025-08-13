@@ -36,6 +36,7 @@ class HomeView extends StatelessWidget {
                 // Middle Panel (to be projected)
                 Expanded(
                   child: Container(
+                    margin: const EdgeInsets.only(bottom: 100),
                     decoration: BoxDecoration(
                       color: Colors.lightGreen.shade50,
                       border: Border.all(color: Colors.pink, width: 2),
