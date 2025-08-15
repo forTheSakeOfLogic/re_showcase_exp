@@ -4,6 +4,7 @@ import UIKit
 @main
 @objc class AppDelegate: FlutterAppDelegate {
   var externalWindow: UIWindow?
+  var presentationEngine: FlutterEngine?
 
   override func application(
     _ application: UIApplication,
@@ -12,11 +13,11 @@ import UIKit
     // Register plugins on the default engine.
     GeneratedPluginRegistrant.register(with: self)
 
-    // Warm and cache a dedicated engine for the external display, routed to '/presentation'.
-    let presentationEngine = FlutterEngine(name: "presentation_engine")
-    presentationEngine.run(withEntrypoint: nil, initialRoute: "/presentation")
-    GeneratedPluginRegistrant.register(with: presentationEngine)
-    FlutterEngineCache.default().put(presentationEngine, forKey: "presentation_engine")
+    // Warm a dedicated engine for the external display, routed to '/presentation'.
+    let engine = FlutterEngine(name: "presentation_engine")
+    engine.run(withEntrypoint: nil, initialRoute: "/presentation")
+    GeneratedPluginRegistrant.register(with: engine)
+    self.presentationEngine = engine
 
     // Listen for external display connect/disconnect.
     NotificationCenter.default.addObserver(
@@ -51,7 +52,7 @@ import UIKit
   }
 
   private func attachExternalScreen(_ screen: UIScreen) {
-    guard let engine = FlutterEngineCache.default().engine(for: "presentation_engine") else { return }
+    guard let engine = self.presentationEngine else { return }
     let frame = screen.bounds
     let window = UIWindow(frame: frame)
     window.screen = screen
