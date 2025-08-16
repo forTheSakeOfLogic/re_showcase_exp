@@ -54,10 +54,15 @@ class HomeController extends GetxController {
 
   Future<void> _tryShowOnExternal() async {
     _displays = await _displayManager.getDisplays();
+    debugPrint('Available displays: ${_displays?.length ?? 0}');
     if (_displays != null && _displays!.length > 1) {
       final displayId = _displays![1]!.displayId;
       if (displayId != null) {
-        final ok = await _displayManager.showSecondaryDisplay(displayId: displayId, routerName: "presentation");
+        // The plugin will trigger our AppDelegate callback which uses presentationMain
+        final ok = await _displayManager.showSecondaryDisplay(
+          displayId: displayId,
+          routerName: "ignored", // This is ignored on iOS with our custom setup
+        );
         debugPrint('showSecondaryDisplay => $ok');
       }
     } else {
