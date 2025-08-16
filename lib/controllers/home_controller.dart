@@ -33,12 +33,19 @@ class HomeController extends GetxController {
       return;
     }
     try {
+      debugPrint('Initializing display manager...');
       // Subscribe to connection events to re-show when needed
       _displayManager.connectedDisplaysChangedStream?.listen((event) async {
+        debugPrint('Display connection event: $event');
+        await Future.delayed(const Duration(milliseconds: 500)); // Give plugin time to settle
         await _tryShowOnExternal();
+        // Send icon data after a brief delay
+        await Future.delayed(const Duration(milliseconds: 100));
         _updatePresentation(_selectedIcon.value);
       });
       await _tryShowOnExternal();
+      // Send initial icon after a brief delay
+      await Future.delayed(const Duration(milliseconds: 100));
       _updatePresentation(_selectedIcon.value);
     } catch (e, st) {
       debugPrint('Display init error: $e\n$st');

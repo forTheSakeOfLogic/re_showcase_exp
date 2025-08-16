@@ -7,6 +7,15 @@ class PresentationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Icon(icon, size: 200)));
+    return Scaffold(
+      backgroundColor: Colors.lightGreen.shade50,
+      body: Center(
+        child: Icon(
+          icon,
+          size: 200,
+          color: Colors.black87,
+        ),
+      ),
+    );
   }
 }
