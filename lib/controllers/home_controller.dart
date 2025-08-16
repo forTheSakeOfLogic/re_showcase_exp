@@ -23,20 +23,32 @@ class HomeController extends GetxController {
   }
 
   void _initDisplays() async {
-    // Only attempt on supported platforms
     if (kIsWeb || !(Platform.isAndroid || Platform.isIOS)) {
       return;
     }
     try {
-      _displays = await _displayManager.getDisplays();
-      if (_displays != null && _displays!.length > 1) {
-        final displayId = _displays![1]!.displayId;
-        if (displayId != null) {
-          await _displayManager.showSecondaryDisplay(displayId: displayId, routerName: "/presentation");
-        }
-      }
+      // Subscribe to connection events to re-show when needed
+      _displayManager.connectedDisplaysChangedStream?.listen((event) async {
+        await _tryShowOnExternal();
+        _updatePresentation(_selectedIcon.value);
+      });
+      await _tryShowOnExternal();
+      _updatePresentation(_selectedIcon.value);
     } catch (e, st) {
       debugPrint('Display init error: $e\n$st');
+    }
+  }
+
+  Future<void> _tryShowOnExternal() async {
+    _displays = await _displayManager.getDisplays();
+    if (_displays != null && _displays!.length > 1) {
+      final displayId = _displays![1]!.displayId;
+      if (displayId != null) {
+        await _displayManager.showSecondaryDisplay(
+          displayId: displayId,
+          routerName: "/presentation",
+        );
+      }
     }
   }
 
