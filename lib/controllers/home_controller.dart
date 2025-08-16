@@ -16,10 +16,16 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _initDisplays();
+    // Subscribe to icon changes
     _selectedIcon.listen((icon) {
       _updatePresentation(icon);
     });
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    _initDisplays();
   }
 
   void _initDisplays() async {
@@ -44,11 +50,11 @@ class HomeController extends GetxController {
     if (_displays != null && _displays!.length > 1) {
       final displayId = _displays![1]!.displayId;
       if (displayId != null) {
-        await _displayManager.showSecondaryDisplay(
-          displayId: displayId,
-          routerName: "/presentation",
-        );
+        final ok = await _displayManager.showSecondaryDisplay(displayId: displayId, routerName: "presentation");
+        debugPrint('showSecondaryDisplay => $ok');
       }
+    } else {
+      debugPrint('No external displays detected');
     }
   }
 
